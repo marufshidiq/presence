@@ -138,7 +138,13 @@
                             <i class="material-icons">domain</i>
                             <span>Room</span>
                         </a>
-                    </li>                       
+                    </li>
+                    <li @if(explode(".",$route)[0] == "course") class="active" @endif>
+                        <a href="{{route('course.list')}}">
+                            <i class="material-icons">library_books</i>
+                            <span>Course</span>
+                        </a>
+                    </li>                        
                 </ul>
             </div>
             <!-- #Menu -->

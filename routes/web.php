@@ -23,4 +23,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'is_admin'], function(){
     Route::get('/room', 'AdminController@showRoom')->name('room.show');
     Route::post('/room/add', 'AdminController@addRoom')->name('room.add');
     Route::post('/room/delete', 'AdminController@deleteRoom')->name('room.delete');
+
+    Route::get('/course', 'AdminController@listCourse')->name('course.list');
+    Route::get('/course/add', 'AdminController@formAddCourse')->name('course.add.form');
+    Route::get('/course/{id}/edit', 'AdminController@formEditCourse')->name('course.edit.form');
+    Route::post('/course/add', 'AdminController@addCourse')->name('course.add');
+    Route::post('/course/edit', 'AdminController@editCourse')->name('course.edit');
+    Route::post('/course/delete', 'AdminController@deleteCourse')->name('course.delete');
 });
