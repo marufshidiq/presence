@@ -18,3 +18,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['prefix' => 'admin', 'middleware' => 'is_admin'], function(){
+    Route::get('/room', 'AdminController@showRoom')->name('room.show');
+    Route::post('/room/add', 'AdminController@addRoom')->name('room.add');
+    Route::post('/room/delete', 'AdminController@deleteRoom')->name('room.delete');
+});

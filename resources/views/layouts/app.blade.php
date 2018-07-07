@@ -127,10 +127,16 @@
                 <ul class="list">
                     <li class="header">MAIN NAVIGATION</li>
                     @php $route = Route::current()->getName() @endphp
-                    <li @if($route=='admin.home')class="active"@endif>
+                    <li @if($route=='home')class="active"@endif>
                         <a href="{{route('home')}}">
                             <i class="material-icons">home</i>
                             <span>Home</span>
+                        </a>
+                    </li>
+                    <li @if($route=='room.show')class="active"@endif>
+                        <a href="{{route('room.show')}}">
+                            <i class="material-icons">domain</i>
+                            <span>Room</span>
                         </a>
                     </li>                       
                 </ul>
