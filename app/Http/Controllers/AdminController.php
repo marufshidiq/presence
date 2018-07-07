@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Room;
 use App\Course;
+use App\Curriculum;
 
 class AdminController extends Controller
 {
@@ -84,5 +85,40 @@ class AdminController extends Controller
     {
         Course::find($request->id)->delete();
         return "success";
+    }
+
+    public function listCurriculum()
+    {
+        return view('admin.curriculumlist');
+    }
+
+    public function addCurriculum(Request $request)
+    {
+        $curriculum = new Curriculum;
+        $curriculum->name = $request->name;
+        $curriculum->save();
+
+        return redirect()->route('curriculum.list');
+    }
+
+    public function deleteCurriculum(Request $request)
+    {
+        $curriculum = Curriculum::find($request->id);
+        if($curriculum['status'] == "1"){            
+            return response()->json([
+                'error'=>'This is the default Curriculum, you can\'t delete this'
+            ], 422);
+        }
+        $curriculum->delete();
+        return redirect()->route('curriculum.list');        
+    }
+
+    public function defaultCurriculum(Request $request)
+    {
+        foreach(Curriculum::all() as $data){
+            Curriculum::where('id', $data['id'])->update(['status'=>'0']);
+        }
+        Curriculum::where('id', $request->id)->update(['status'=>'1']);
+        return redirect()->route('curriculum.list');        
     }
 }

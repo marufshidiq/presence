@@ -139,6 +139,12 @@
                             <span>Room</span>
                         </a>
                     </li>
+                    <li @if($route=='curriculum.list')class="active"@endif>
+                        <a href="{{route('curriculum.list')}}">
+                            <i class="material-icons">school</i>
+                            <span>Curriculum</span>
+                        </a>
+                    </li>
                     <li @if(explode(".",$route)[0] == "course") class="active" @endif>
                         <a href="{{route('course.list')}}">
                             <i class="material-icons">library_books</i>

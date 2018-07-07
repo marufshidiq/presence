@@ -30,4 +30,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'is_admin'], function(){
     Route::post('/course/add', 'AdminController@addCourse')->name('course.add');
     Route::post('/course/edit', 'AdminController@editCourse')->name('course.edit');
     Route::post('/course/delete', 'AdminController@deleteCourse')->name('course.delete');
+
+    Route::get('/curriculum', 'AdminController@listCurriculum')->name('curriculum.list');
+    Route::post('/curriculum/add', 'AdminController@addCurriculum')->name('curriculum.add');
+    Route::post('/curriculum/edit', 'AdminController@editCurriculum')->name('curriculum.edit');
+    Route::post('/curriculum/delete', 'AdminController@deleteCurriculum')->name('curriculum.delete');
+    Route::post('/curriculum/default', 'AdminController@defaultCurriculum')->name('curriculum.default');
 });
