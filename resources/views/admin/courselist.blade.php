@@ -87,16 +87,20 @@
     
     function deleteCourse($id){
         console.log($id);
-        $.ajax({
-            type:'POST',
-            url:'{{route('course.delete')}}',
-            data:{
-                id: $id
-            },
-            success:function(data){
-                location.reload();
-            }
-        });
+        
+        var q = confirm('Are you sure to delete this?');
+        if(q == true){
+            $.ajax({
+                type:'POST',
+                url:'{{route('course.delete')}}',
+                data:{
+                    id: $id
+                },
+                success:function(data){
+                    location.reload();
+                }
+            });
+        }
     }
 </script>
 @endsection
