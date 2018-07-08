@@ -80,6 +80,7 @@
                                             <td>{{ $data['name'] }}</td>
                                             <td>@if($data['status'] == "1") Active @endif</td>
                                             <td>
+                                                <button type="button" class="btn btn-default waves-effect show-course" data-id="{{$data['id']}}" data-toggle="modal" data-target="#courseModal">Show Course</button>
                                                 <button @if($data['status'] == "1") disabled @endif onclick="defaultCurriculum({{$data['id']}})" class="btn btn-info waves-effect">Set Default</button>
                                                 <button onclick="switchEdit({{$data['id']}}, '{{$data['name']}}')" class="btn btn-warning waves-effect">Edit</button>                                                
                                                 <button onclick="deleteCurriculum({{$data['id']}})" class="btn btn-danger waves-effect">Delete</button>
@@ -94,7 +95,39 @@
                 </div>
                 <!-- #END# Task Info -->                
             </div>
-            
+            <div class="modal fade" id="courseModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="courseModalLabel">Modal title</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover dashboard-course-infos">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Curriculum</th>
+                                            <th>Code</th>
+                                            <th>Name</th>
+                                            <th>SKS</th>
+                                            <th>Category</th>
+                                            <th>Group</th>
+                                            <th>Action</th>                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>                                        
+                                                                               
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">                            
+                            <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 @endsection
@@ -105,11 +138,83 @@
         $('#btn-cancel').hide();
     });
 
+    $(".show-course").click(function(){
+        console.log($(this).data('id'));
+        console.log("Diklik");
+        showCourse($(this).data('id'));
+    });
+
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+
+    function showCourse($id){
+        $.ajax({
+            type:'POST',
+            url:'{{route('curriculum.showcourse')}}',
+            data:{
+                id: $id
+            },
+            success:function(data){                
+                console.log(data);
+                // var d = JSON.parse(data);
+                $('#courseModalLabel').html(data.name);
+                $("table.dashboard-course-infos tbody").empty();
+                
+                if(data.course.length == 0){                    
+                    $('.modal-body .table-responsive').hide();
+                }
+                else {
+                    $('.modal-body .table-responsive').show();
+                    $.each(data.course, function(key, value) {
+                        var tr = $("<tr />")
+                        $.each(value, function(k, v) {
+                            tr.append(
+                                $("<td />", {
+                                html: v
+                                })[0].outerHTML
+                            );
+                            $("table.dashboard-course-infos tbody").append(tr);
+                        })
+                    });
+                }
+            }
+        });
+    }
+    
+    function drawTable(data) {
+        for (var i = 0; i < data.length; i++) {
+            drawRow(data[i]);
+        }
+    }
+
+    function drawRow(rowData) {
+        var row = $("<tr />")
+        $("#personDataTable").append(row);
+        row.append($("<td>" + rowData.id + "</td>"));
+        row.append($("<td>" + rowData.firstName + "</td>"));
+        row.append($("<td>" + rowData.lastName + "</td>"));
+    }
+
+    function deleteCourse($id){
+        console.log($id);
+        
+        var q = confirm('Are you sure to delete this?');
+        if(q == true){
+            $.ajax({
+                type:'POST',
+                url:'{{route('course.delete')}}',
+                data:{
+                    id: $id
+                },
+                success:function(data){
+                    location.reload();
+                }
+            });
+        }
+    }
     
     function deleteCurriculum($id){
         console.log($id);

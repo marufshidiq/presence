@@ -36,4 +36,5 @@ Route::group(['prefix' => 'admin', 'middleware' => 'is_admin'], function(){
     Route::post('/curriculum/edit', 'AdminController@editCurriculum')->name('curriculum.edit');
     Route::post('/curriculum/delete', 'AdminController@deleteCurriculum')->name('curriculum.delete');
     Route::post('/curriculum/default', 'AdminController@defaultCurriculum')->name('curriculum.default');
+    Route::post('/curriculum/course', 'AdminController@showCourseCurriculum')->name('curriculum.showcourse');
 });

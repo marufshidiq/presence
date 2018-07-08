@@ -19,6 +19,14 @@
                                 <form action="{{route('course.add')}}" method="POST">
                                     {{ csrf_field() }}
                                     <div class="col-sm-12">
+                                        <h4 style="font-weight:bold; font-size:13px;" class="card-inside-title">Curriculum</h4>
+                                        <select class="form-control show-tick" name="curriculum">
+                                            @foreach(\App\Curriculum::all() as $data)
+                                            <option @if($data['status']=="1") selected @endif value="{{$data['id']}}">{{$data['name']}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-12">
                                         <div class="form-group form-float">
                                             <div class="form-line">
                                                 <input type="text" class="form-control" name="code" id="code" required>

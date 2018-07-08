@@ -58,6 +58,7 @@ class AdminController extends Controller
     public function addCourse(Request $request)
     {
         $course = new Course;
+        $course->curriculum_id = $request->curriculum;
         $course->code = $request->code;
         $course->name = $request->name;
         $course->sks = $request->sks;
@@ -71,6 +72,7 @@ class AdminController extends Controller
     public function editCourse(Request $request)
     {
         $course = Course::where('id', $request->id)->update([
+            'curriculum_id' => $request->curriculum,
             'code' => $request->code,
             'name' => $request->name,
             'sks' => $request->sks,
@@ -120,5 +122,35 @@ class AdminController extends Controller
         }
         Curriculum::where('id', $request->id)->update(['status'=>'1']);
         return redirect()->route('curriculum.list');        
+    }
+
+    public function showCourseCurriculum(Request $request)
+    {
+        $curriculum = Curriculum::find($request->id);
+        $course = $curriculum->course;
+        $f_course = [];
+
+        $x = 1;
+        foreach($course as $d){
+            $c = [
+                'id' => $x++,
+                'curriculum' => $d->curriculum['name'],
+                'code' => $d['code'],
+                'name' => $d['name'],
+                'sks' => $d['sks'],
+                'category' => $d['category'],
+                'group' => $d['group'],
+                'action' =>'<button onclick="location.href=\''. route('course.edit.form', ['id'=>$d['id']]) .'\'" class="btn btn-warning waves-effect">Edit</button>
+                <button onclick="deleteCourse('.$d['id'].')" class="btn btn-danger waves-effect">Delete</button>'
+            ];
+            array_push($f_course, $c);
+        }
+
+        $ret = [
+            'name' => $curriculum['name'],
+            'course' => $f_course
+        ];
+
+        return response()->json($ret);
     }
 }

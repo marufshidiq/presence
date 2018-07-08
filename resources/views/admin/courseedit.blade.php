@@ -20,6 +20,14 @@
                                     {{ csrf_field() }}
                                     <input type="hidden" name="id" value="{{$course['id']}}">
                                     <div class="col-sm-12">
+                                        <h4 style="font-weight:bold; font-size:13px;" class="card-inside-title">Curriculum</h4>
+                                        <select class="form-control show-tick" name="curriculum">
+                                            @foreach(\App\Curriculum::all() as $data)
+                                            <option @if($course['curriculum_id']==$data['id']) selected @endif value="{{$data['id']}}">{{$data['name']}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-12">
                                         <div class="form-group form-float">
                                             <div class="form-line">
                                                 <input type="text" class="form-control" name="code" id="code" value="{{$course['code']}}">

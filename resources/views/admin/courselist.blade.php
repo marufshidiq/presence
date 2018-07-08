@@ -41,6 +41,7 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
+                                            <th>Curriculum</th>
                                             <th>Code</th>
                                             <th>Name</th>
                                             <th>SKS</th>
@@ -53,6 +54,7 @@
                                         @foreach(App\Course::all() as $data)
                                         <tr>                                        
                                             <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $data->curriculum['name'] }}</td>
                                             <td>{{ $data['code'] }}</td>
                                             <td>{{ $data['name'] }}</td>
                                             <td>{{ $data['sks'] }}</td>
