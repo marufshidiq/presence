@@ -8,6 +8,7 @@ use App\Room;
 use App\Course;
 use App\Curriculum;
 use App\Card;
+use App\Period;
 
 class AdminController extends Controller
 {
@@ -139,6 +140,15 @@ class AdminController extends Controller
         return redirect()->route('curriculum.list');
     }
 
+    public function editCurriculum(Request $request)
+    {
+        Curriculum::where('id', $request->id)->update([
+            'name' => $request->name
+        ]);
+
+        return redirect()->route('curriculum.list');
+    }
+
     public function deleteCurriculum(Request $request)
     {
         $curriculum = Curriculum::find($request->id);
@@ -188,5 +198,49 @@ class AdminController extends Controller
         ];
 
         return response()->json($ret);
+    }
+
+    public function listPeriod()
+    {
+        return view('admin.periodlist');
+    }
+
+    public function addPeriod(Request $request)
+    {
+        $period = new Period;
+        $period->name = $request->name;
+        $period->save();
+
+        return redirect()->route('period.list');
+    }
+
+    public function deletePeriod(Request $request)
+    {
+        $period = Period::find($request->id);
+        if($period['status'] == "1"){            
+            return response()->json([
+                'error'=>'This is the default Period, you can\'t delete this'
+            ], 422);
+        }
+        $period->delete();
+        return redirect()->route('period.list');        
+    }
+
+    public function defaultPeriod(Request $request)
+    {
+        foreach(Period::all() as $data){
+            Period::where('id', $data['id'])->update(['status'=>'0']);
+        }
+        Period::where('id', $request->id)->update(['status'=>'1']);
+        return redirect()->route('period.list');        
+    }
+
+    public function editPeriod(Request $request)
+    {
+        Period::where('id', $request->id)->update([
+            'name' => $request->name
+        ]);
+
+        return redirect()->route('period.list');
     }
 }
