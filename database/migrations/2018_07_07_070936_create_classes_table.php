@@ -19,6 +19,7 @@ class CreateClassesTable extends Migration
             $table->integer('course_id')->unsigned();
             $table->integer('lecture_id')->unsigned();
             $table->integer('periode_id')->unsigned();
+            $table->integer('room_id')->unsigned();
             $table->integer('day')->unsigned();
             $table->time('start');
             $table->time('end');
