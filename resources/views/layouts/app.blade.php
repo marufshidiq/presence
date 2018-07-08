@@ -139,6 +139,12 @@
                             <span>Room</span>
                         </a>
                     </li>
+                    <li @if($route=='card.list')class="active"@endif>
+                        <a href="{{route('card.list')}}">
+                            <i class="material-icons">contact_mail</i>
+                            <span>Card</span>
+                        </a>
+                    </li>
                     <li @if($route=='curriculum.list')class="active"@endif>
                         <a href="{{route('curriculum.list')}}">
                             <i class="material-icons">school</i>

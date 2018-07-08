@@ -7,9 +7,45 @@ use Illuminate\Http\Request;
 use App\Room;
 use App\Course;
 use App\Curriculum;
+use App\Card;
 
 class AdminController extends Controller
 {
+    public function listCard()
+    {        
+        return view('admin.cardlist');
+    }
+
+    public function addCard(Request $request)
+    {        
+        $card = new Card;
+        $card->key = $request->key;        
+        $card->save();
+        return redirect()->back();
+    }
+
+    public function deleteCard(Request $request)
+    {
+        Card::find($request->id)->delete();
+        return "success";
+    }
+
+    public function setCard(Request $request)
+    {
+        Card::where('id', $request->id)->update([
+            'status' => $request->status
+        ]);
+        return "success";
+    }
+
+    public function assignCard(Request $request)
+    {
+        Card::where('id', $request->id)->update([
+            'user_id' => $request->user
+        ]);
+        return redirect()->back();
+    }
+
     public function showRoom()
     {        
         return view('admin.roomlist');

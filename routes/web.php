@@ -20,6 +20,12 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['prefix' => 'admin', 'middleware' => 'is_admin'], function(){
+    Route::get('/card', 'AdminController@listCard')->name('card.list');
+    Route::post('/card/add', 'AdminController@addCard')->name('card.add');
+    Route::post('/card/delete', 'AdminController@deleteCard')->name('card.delete');
+    Route::post('/card/set', 'AdminController@setCard')->name('card.set');
+    Route::post('/card/assign', 'AdminController@assignCard')->name('card.assign');
+
     Route::get('/room', 'AdminController@showRoom')->name('room.show');
     Route::post('/room/add', 'AdminController@addRoom')->name('room.add');
     Route::post('/room/delete', 'AdminController@deleteRoom')->name('room.delete');
