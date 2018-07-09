@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('home');
 });
 
 Auth::routes();
@@ -49,4 +49,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'is_admin'], function(){
     Route::post('/period/edit', 'AdminController@editPeriod')->name('period.edit');
     Route::post('/period/delete', 'AdminController@deletePeriod')->name('period.delete');
     Route::post('/period/default', 'AdminController@defaultPeriod')->name('period.default');
+
+    Route::get('/class', 'AdminController@listClass')->name('class.list');
+    Route::get('/class/add', 'AdminController@formAddClass')->name('class.add.form');
+    Route::get('/class/{id}/edit', 'AdminController@formEditClass')->name('class.edit.form');
+    Route::post('/class/add', 'AdminController@addClass')->name('class.add');
+    Route::post('/class/edit', 'AdminController@editClass')->name('class.edit');
+    Route::post('/class/delete', 'AdminController@deleteClass')->name('class.delete');
 });

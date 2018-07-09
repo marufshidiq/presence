@@ -162,6 +162,12 @@
                             <i class="material-icons">library_books</i>
                             <span>Course</span>
                         </a>
+                    </li>
+                    <li @if(explode(".",$route)[0] == "class")class="active"@endif>
+                        <a href="{{route('class.list')}}">
+                            <i class="material-icons">account_balance</i>
+                            <span>Class</span>
+                        </a>
                     </li>                        
                 </ul>
             </div>

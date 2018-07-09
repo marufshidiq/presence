@@ -9,6 +9,7 @@ use App\Course;
 use App\Curriculum;
 use App\Card;
 use App\Period;
+use App\Classes;
 
 class AdminController extends Controller
 {
@@ -242,5 +243,60 @@ class AdminController extends Controller
         ]);
 
         return redirect()->route('period.list');
+    }
+
+    public function listClass()
+    {
+        return view('admin.classlist');
+    }
+
+    public function formAddClass()
+    {
+        return view('admin.classadd');
+    }
+
+    public function addClass(Request $request)
+    {
+        $class = new Classes;
+        $class->name = $request->name;
+        $class->periode_id = $request->period;
+        $class->course_id = $request->course;
+        $class->lecture_id = $request->lecture;
+        $class->room_id = $request->room;
+        $class->day = $request->day;
+        $class->start = $request->start;
+        $class->end = $request->end;
+        $class->save();        
+
+        return redirect()->route('class.list');
+    }
+
+    public function formEditClass($id)
+    {
+        $class = Classes::find($id);
+
+        return view('admin.classedit', compact('class'));
+    }
+
+    public function editClass(Request $request)
+    {
+        $class = Classes::where('id', $request->id)->update([
+            'name' => $request->name,
+            'periode_id' => $request->period,
+            'course_id' => $request->course,
+            'lecture_id' => $request->lecture,
+            'room_id' => $request->room,
+            'day' => $request->day,
+            'start' => $request->start,
+            'end' => $request->end
+        ]);
+
+        return redirect()->route('class.list');
+    }
+
+    public function deleteClass(Request $request)
+    {
+        Classes::find($request->id)->delete();
+        return "success";
     }
 }
