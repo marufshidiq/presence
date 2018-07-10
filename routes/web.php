@@ -56,4 +56,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'is_admin'], function(){
     Route::post('/class/add', 'AdminController@addClass')->name('class.add');
     Route::post('/class/edit', 'AdminController@editClass')->name('class.edit');
     Route::post('/class/delete', 'AdminController@deleteClass')->name('class.delete');
+    Route::post('/class/student', 'AdminController@showStudent')->name('class.showstudent');
+    Route::post('/class/addstudent', 'AdminController@addClassStudent')->name('class.addstudent');
 });

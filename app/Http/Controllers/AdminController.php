@@ -299,4 +299,44 @@ class AdminController extends Controller
         Classes::find($request->id)->delete();
         return "success";
     }
+
+    public function showStudent(Request $request)
+    {
+        $class = Classes::find($request->id);
+        $student = $class->students;
+        $list_student = [];
+        $f_student = [];
+        
+        foreach($student as $std){
+            array_push($list_student, $std['id']);
+        }        
+        
+        foreach(\App\User::where('role', 'student')->get() as $d){
+            if(in_array($d['id'], $list_student)){                
+                $x = '<input type="checkbox" name="student[]" value="'.$d['id'].'" id="cb-'.$d['id'].'" class="filled-in" checked /><label for="cb-'.$d['id'].'">'.$d['name'].'</label>';
+            }
+            else {
+                $x = '<input type="checkbox" name="student[]" value="'.$d['id'].'" id="cb-'.$d['id'].'" class="filled-in" /><label for="cb-'.$d['id'].'">'.$d['name'].'</label>';
+            }
+            $c = [
+                'id' => $x,                
+            ];
+            array_push($f_student, $c);
+        }
+
+        $ret = [
+            'name' => $class['name']." Student List",
+            'class' => $f_student
+        ];
+
+        return response()->json($ret);        
+    }
+
+    public function addClassStudent(Request $request)
+    {
+        $class = Classes::find($request->id);
+        $class->students()->sync($request->student);
+
+        return redirect()->route('class.list');
+    }
 }

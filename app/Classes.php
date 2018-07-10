@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Classes extends Model
 {
+    public function students()
+    {
+        return $this->belongsToMany('App\User', 'class_student', 'class_id', 'student_id');
+    }
+
     public function period()
     {
         return $this->belongsTo('App\Period', 'periode_id');

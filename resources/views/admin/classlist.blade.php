@@ -61,7 +61,7 @@
                                             <td>{{ $data->room['name'] }}</td>
                                             <td>{{ $data->the_day() }} {{ $data->class_start() }} - {{ $data->class_end() }}</td>
                                             <td>
-                                                <button class="btn btn-info waves-effect">Student</button>                                                                                                    
+                                                <button class="btn btn-info waves-effect show-class" data-id="{{$data['id']}}" data-toggle="modal" data-target="#classModal">Student</button>
                                                 <button onclick="location.href='{{ route('class.edit.form', ['id'=>$data['id']]) }}'" class="btn btn-warning waves-effect">Edit</button>
                                                 <button onclick="deleteClass({{$data['id']}})" class="btn btn-danger waves-effect">Delete</button>
                                             </td>                                            
@@ -75,7 +75,37 @@
                 </div>
                 <!-- #END# Task Info -->                
             </div>
-            
+            <div class="modal fade" id="classModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <form action="{{route('class.addstudent')}}" method="POST">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="id" id="class_id">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="classModalLabel">Modal title</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover dashboard-class-infos">
+                                    <thead>
+                                        <tr>
+                                            <th>Student Name</th>                                                                                                                                    
+                                        </tr>
+                                    </thead>
+                                    <tbody>                                        
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">   
+                            <button type="submit" class="btn btn-link waves-effect">UPDATE</button>
+                            <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 @endsection
@@ -87,6 +117,45 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+
+    $(".show-class").click(function(){       
+        showStudent($(this).data('id'));
+    });
+
+    function showStudent($id){
+        $.ajax({
+            type:'POST',
+            url:'{{route('class.showstudent')}}',
+            data:{
+                id: $id
+            },
+            success:function(data){                
+                console.log(data);
+                // var d = JSON.parse(data);
+                $('#classModalLabel').html(data.name);
+                $("table.dashboard-class-infos tbody").empty();
+                $('#class_id').val($id);
+                
+                if(data.class.length == 0){                    
+                    $('.modal-body .table-responsive').hide();
+                }
+                else {
+                    $('.modal-body .table-responsive').show();
+                    $.each(data.class, function(key, value) {
+                        var tr = $("<tr />")
+                        $.each(value, function(k, v) {
+                            tr.append(
+                                $("<td />", {
+                                html: v
+                                })[0].outerHTML
+                            );
+                            $("table.dashboard-class-infos tbody").append(tr);
+                        })
+                    });
+                }
+            }
+        });
+    }
     
     function deleteClass($id){
         console.log($id);
