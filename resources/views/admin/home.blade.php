@@ -50,7 +50,7 @@
 
             <div class="row clearfix">
                 <!-- Task Info -->
-                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                <!-- <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
                     <div class="card">
                         <div class="header">
                             <h2>HISTORY</h2>                            
@@ -73,7 +73,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- #END# Task Info -->
                 
             </div>

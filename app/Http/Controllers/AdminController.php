@@ -134,6 +134,63 @@ class AdminController extends Controller
         return "Success";
     }
 
+    public function listLecture(){
+        return view('admin.lecturelist');
+    }
+
+    public function formAddLecture()
+    {
+        return view('admin.lectureadd');
+    }
+
+    public function formEditLecture($id)
+    {
+        $lecture = User::find($id);
+        $profile = $lecture->profile;
+        return view('admin.lectureedit', compact('lecture', 'profile'));
+    }
+
+    public function addLecture(Request $request)
+    {
+        $user = new User;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->role = "lecturer";
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        $profile = $user->profile()->create([
+            'born_date' => $request->born,
+            'gender' => $request->gender,
+            'number_id' => $request->number
+        ]);
+
+        return redirect()->route('lecture.list');
+    }
+
+    public function editLecture(Request $request)
+    {
+        $lecture = User::find($request->id);
+        $lecture->update([
+            'name' =>  $request->name,
+            'email' => $request->email
+        ]);
+
+        $lecture->profile()->update([
+            'born_date' => $request->born,
+            'gender' => $request->gender,
+            'number_id' => $request->number
+        ]);
+
+        return redirect()->route('lecture.list');
+    }
+
+    public function deleteLecture(Request $request)
+    {
+        $lecture = User::find($request->id)->delete();
+        return "Success";
+    }
+
     public function listCourse()
     {
         return view('admin.courselist');

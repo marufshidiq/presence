@@ -139,6 +139,12 @@
                             <span>Student</span>
                         </a>
                     </li>
+                    <li @if(explode(".",$route)[0] == "lecture")class="active"@endif>
+                        <a href="{{route('lecture.list')}}">
+                            <i class="material-icons">person</i>
+                            <span>Lecture</span>
+                        </a>
+                    </li>
                     <li @if($route=='room.show')class="active"@endif>
                         <a href="{{route('room.show')}}">
                             <i class="material-icons">domain</i>

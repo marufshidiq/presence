@@ -33,6 +33,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'is_admin'], function(){
     Route::post('/student/edit', 'AdminController@editStudent')->name('student.edit');
     Route::post('/student/delete', 'AdminController@deleteStudent')->name('student.delete');
 
+    Route::get('/lecture', 'AdminController@listLecture')->name('lecture.list');
+    Route::get('/lecture/add', 'AdminController@formAddLecture')->name('lecture.add.form');
+    Route::get('/lecture/{id}/edit', 'AdminController@formEditLecture')->name('lecture.edit.form');
+    Route::post('/lecture/add', 'AdminController@addLecture')->name('lecture.add');
+    Route::post('/lecture/edit', 'AdminController@editLecture')->name('lecture.edit');
+    Route::post('/lecture/delete', 'AdminController@deleteLecture')->name('lecture.delete');
+
     Route::get('/room', 'AdminController@showRoom')->name('room.show');
     Route::post('/room/add', 'AdminController@addRoom')->name('room.add');
     Route::post('/room/delete', 'AdminController@deleteRoom')->name('room.delete');
