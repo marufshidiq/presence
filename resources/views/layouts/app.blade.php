@@ -133,6 +133,12 @@
                             <span>Home</span>
                         </a>
                     </li>
+                    <li @if(explode(".",$route)[0] == "student")class="active"@endif>
+                        <a href="{{route('student.list')}}">
+                            <i class="material-icons">person_outline</i>
+                            <span>Student</span>
+                        </a>
+                    </li>
                     <li @if($route=='room.show')class="active"@endif>
                         <a href="{{route('room.show')}}">
                             <i class="material-icons">domain</i>
