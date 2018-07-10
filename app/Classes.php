@@ -46,4 +46,18 @@ class Classes extends Model
     {        
         return \Carbon\Carbon::createFromFormat('H:i:s', $this->end)->format('H:i');
     }
+    
+    public function schedule()
+    {
+        return $this->hasMany('App\ClassSchedule', 'class_id');
+    }
+
+    public function weekSchedule()
+    {
+        foreach($this->schedule as $d){
+            if($d['week'] == date("W")){
+                return $d;
+            }
+        }
+    }
 }

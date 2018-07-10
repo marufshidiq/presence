@@ -57,7 +57,7 @@
                                             <td>{{ $data->the_day() }} {{ $data->class_start() }} - {{ $data->class_end() }}</td>
                                             <td>
                                                 <button class="btn btn-info waves-effect show-class" data-id="{{$data['id']}}" data-toggle="modal" data-target="#classModal">Student</button>
-                                                <button onclick="location.href='{{ route('class.edit.form', ['id'=>$data['id']]) }}'" class="btn btn-warning waves-effect">Reschedule</button>                                                
+                                                <button onclick="location.href='{{ route('lecture.class.reschedule.form', ['id'=>$data['id']]) }}'" class="btn btn-warning waves-effect">Reschedule</button>                                                
                                             </td>                                            
                                         </tr>
                                         @endforeach

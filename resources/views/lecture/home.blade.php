@@ -49,10 +49,10 @@
                                         @foreach(\App\Classes::where('lecture_id', Auth::user()->id)->orderBy('day', 'asc')->orderBy('start', 'asc')->get() as $data)
                                         <tr>
                                             <td>{{$data->the_day()}}</td>
-                                            <td>{{$data->room['name']}}</td>
+                                            <td>{{\App\Room::find($data->weekSchedule()['room_id'])['name']}}</td>
                                             <td>{{$data->course['name']}}</td>
-                                            <td>{{$data->start}}</td>
-                                            <td>{{$data->end}}</td>
+                                            <td>{{$data->weekSchedule()['start']}}</td>
+                                            <td>{{$data->weekSchedule()['end']}}</td>
                                         </tr>                                                                                
                                         @endforeach
                                     </tbody>
