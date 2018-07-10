@@ -74,3 +74,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'is_admin'], function(){
     Route::post('/class/addstudent', 'AdminController@addClassStudent')->name('class.addstudent');
     Route::post('/class/check', 'AdminController@checkClass')->name('class.check');
 });
+
+Route::group(['prefix' => 'lecture', 'middleware' => 'is_lecture'], function(){
+    Route::get('/class', 'LectureController@listClass')->name('lecture.class.list');
+    Route::post('/class/student', 'LectureController@showStudent')->name('lecture.class.showstudent');
+});

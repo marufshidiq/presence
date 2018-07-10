@@ -26,6 +26,9 @@ class HomeController extends Controller
         if(\Auth::user()->role == "admin"){
             return view('admin.home');
         }
+        if(\Auth::user()->role == "lecturer"){
+            return view('lecture.home');
+        }
         return view('home');
     }
 }
