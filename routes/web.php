@@ -26,6 +26,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'is_admin'], function(){
     Route::post('/card/set', 'AdminController@setCard')->name('card.set');
     Route::post('/card/assign', 'AdminController@assignCard')->name('card.assign');
 
+    Route::get('/student', 'AdminController@listStudent')->name('student.list');
+    Route::get('/student/add', 'AdminController@formAddStudent')->name('student.add.form');
+    Route::get('/student/{id}/edit', 'AdminController@formEditStudent')->name('student.edit.form');
+    Route::post('/student/add', 'AdminController@addStudent')->name('student.add');
+    Route::post('/student/edit', 'AdminController@editStudent')->name('student.edit');
+    Route::post('/student/delete', 'AdminController@deleteStudent')->name('student.delete');
+
     Route::get('/room', 'AdminController@showRoom')->name('room.show');
     Route::post('/room/add', 'AdminController@addRoom')->name('room.add');
     Route::post('/room/delete', 'AdminController@deleteRoom')->name('room.delete');

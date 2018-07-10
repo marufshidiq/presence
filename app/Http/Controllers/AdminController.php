@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
+use App\User;
 use App\Room;
 use App\Course;
 use App\Curriculum;
@@ -74,6 +76,62 @@ class AdminController extends Controller
     {
         Room::find($request->delid)->delete();
         return redirect()->back();
+    }
+    
+    public function listStudent(){
+        return view('admin.studentlist');
+    }
+
+    public function formAddStudent()
+    {
+        return view('admin.studentadd');
+    }
+
+    public function formEditStudent($id)
+    {
+        $student = User::find($id);
+        $profile = $student->profile;
+        return view('admin.studentedit', compact('student', 'profile'));
+    }
+
+    public function addStudent(Request $request)
+    {
+        $user = new User;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        $profile = $user->profile()->create([
+            'born_date' => $request->born,
+            'gender' => $request->gender,
+            'number_id' => $request->number
+        ]);
+
+        return redirect()->route('student.list');
+    }
+
+    public function editStudent(Request $request)
+    {
+        $student = User::find($request->id);
+        $student->update([
+            'name' =>  $request->name,
+            'email' => $request->email
+        ]);
+
+        $student->profile()->update([
+            'born_date' => $request->born,
+            'gender' => $request->gender,
+            'number_id' => $request->number
+        ]);
+
+        return redirect()->route('student.list');
+    }
+
+    public function deleteStudent(Request $request)
+    {
+        $student = User::find($request->id)->delete();
+        return "Success";
     }
 
     public function listCourse()

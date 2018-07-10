@@ -31,4 +31,14 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Classes', 'class_student', 'student_id', 'class_id');
     }
+
+    public function card()
+    {
+        return $this->hasOne('App\Card');
+    }
+
+    public function profile()
+    {
+        return $this->hasOne('App\Profile');
+    }
 }
