@@ -81,7 +81,7 @@ class StartSeeder extends Seeder
         for($i = 1; $i <= 10; $i++){        
             DB::table('courses')->insert([
                 'code' => rand(100000, 999999),
-                'curriculum_id' => array_random([0,1]),
+                'curriculum_id' => array_random([2,1]),
                 'name' => array_random(['Sistem Informasi', 'Teknik Komputer', 'Jaringan Komputer', 'Pemrograman Komputer']),
                 'sks' => rand(1,4),
                 'category' => array_random(["W", "P"]),
@@ -122,7 +122,7 @@ class StartSeeder extends Seeder
             $newclass = \App\Classes::insert([
                 'name' => $acronym,
                 'course_id' => $course['id'],
-                'lecture_id' => rand(1,10),
+                'lecture_id' => rand(11,20),
                 'periode_id' => rand(1,10),
                 'room_id' => rand(1,10),
                 'day' => rand(0,6),
@@ -140,6 +140,19 @@ class StartSeeder extends Seeder
             }
 
             \App\Classes::find($i)->students()->sync($student);
+        }
+
+        for($i = 1; $i <= 10; $i++){
+            $class = \App\Classes::find($i);
+            
+            $class->schedule()->create([
+                'class_id' => $class['id'],
+                'week' => date("W"),
+                'room_id' => $class['room_id'],
+                'day' => $class['day'],
+                'start' => $class['start'],
+                'end' => $class['end']
+            ]);
         }
     }
 }
