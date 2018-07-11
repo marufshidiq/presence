@@ -35,6 +35,7 @@
                                         <h4 style="font-weight:bold; font-size:13px;" class="card-inside-title">Day</h4>
                                         <select class="form-control show-tick inp" name="day" id="day">
                                             @foreach(["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"] as $data)
+                                            @continue($loop->index < date("w"))
                                             <option @if($loop->index==$schedule['day']) selected @endif value="{{$loop->index}}">{{$data}}</option>
                                             @endforeach
                                         </select>
