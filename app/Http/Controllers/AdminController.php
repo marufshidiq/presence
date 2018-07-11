@@ -499,4 +499,85 @@ class AdminController extends Controller
 
         return redirect()->route('class.list');
     }
+
+    public function listPresence()
+    {
+        return view('admin.presencelist');
+    }
+
+    public function listPresenceStudent($id)
+    {
+        $class = Classes::find($id);
+        return view('admin.presencestudentlist', compact('class'));
+    }
+
+    public function logPresence(Request $request)
+    {
+        $class_id = $request->class_id;
+        $user_id = $request->user_id;
+
+        $class = \App\Classes::find($class_id);
+        $session = $class->schedule;
+        $s = 1;
+        $ret = [];
+        foreach($session as $x){
+            $presence = \App\Presence::where('session_id', $x['id'])->where('user_id', $user_id);
+            $name = "Session ".$s++;
+            $week = $x['week'];
+            $hadir = "";
+            $ijin = "";
+            $alfa = "";
+            if($presence->count() >0){
+                if($presence->first()['status']=="1"){
+                    $hadir = "disabled";
+                }
+                else if($presence->first()['status']=="2"){
+                    $ijin = "disabled";
+                }                
+            }
+            else {
+                $alfa = "disabled";
+            }
+
+            $status = '<button onclick="setHadir('.$user_id.','.$x['id'].','.$week.')" '.$hadir.' class="btn btn-success waves-effect">HADIR</button>
+                       <button onclick="setIjin('.$user_id.','.$x['id'].','.$week.')" '.$ijin.' class="btn btn-warning waves-effect">IJIN</button>
+                       <button onclick="setAlfa('.$user_id.','.$x['id'].','.$week.')" '.$alfa.' class="btn btn-danger waves-effect">ALFA</button>';
+
+            $c = [
+                'name' => $name,
+                'status' => $status
+            ];
+
+            array_push($ret, $c);
+        }
+
+        $resp = [
+            'name' => $class['name']." Log",
+            'log' => $ret
+        ];
+
+        return response()->json($resp);
+    }
+
+    public function changePresence(Request $request)
+    {
+        if(($request->action == "1")||($request->action == "2")){
+            $presence = \App\Presence::updateOrCreate([
+                'user_id' => $request->user_id,
+                'session_id' => $request->session_id,
+                'week' => $request->week                            
+            ],[
+                'presence' => date("Y-m-d H:i:s"),
+                'status' => $request->action
+            ]);
+        }
+        else {
+            $presence = \App\Presence::where('user_id', $request->user_id)
+                                    ->where('session_id', $request->session_id)
+                                    ->where('week', $request->week)->first();
+            $presence->delete();
+        }
+
+        return "Success";
+    }
 }

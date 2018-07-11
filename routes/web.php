@@ -73,6 +73,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'is_admin'], function(){
     Route::post('/class/student', 'AdminController@showStudent')->name('class.showstudent');
     Route::post('/class/addstudent', 'AdminController@addClassStudent')->name('class.addstudent');
     Route::post('/class/check', 'AdminController@checkClass')->name('class.check');
+
+    Route::get('/presence', 'AdminController@listPresence')->name('presence.list');
+    Route::get('/presence/{id}/list', 'AdminController@listPresenceStudent')->name('presence.student.list');
+    Route::post('/presence/log', 'AdminController@logPresence')->name('presence.log');
+    Route::post('/presence/change', 'AdminController@changePresence')->name('presence.change');
 });
 
 Route::group(['prefix' => 'lecture', 'middleware' => 'is_lecture'], function(){
