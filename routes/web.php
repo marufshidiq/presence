@@ -78,6 +78,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'is_admin'], function(){
     Route::get('/presence/{id}/list', 'AdminController@listPresenceStudent')->name('presence.student.list');
     Route::post('/presence/log', 'AdminController@logPresence')->name('presence.log');
     Route::post('/presence/change', 'AdminController@changePresence')->name('presence.change');
+
+    Route::get('/log', 'AdminController@listLog')->name('log.list');
 });
 
 Route::group(['prefix' => 'lecture', 'middleware' => 'is_lecture'], function(){

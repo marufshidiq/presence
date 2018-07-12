@@ -15,8 +15,8 @@ class CreateLogsTable extends Migration
     {
         Schema::create('logs', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('card')->nullable();
-            $table->string('room')->nullable();
+            $table->string('card_id')->nullable();
+            $table->string('room_id')->nullable();
             $table->string('status')->nullable();
             $table->timestamps();
         });

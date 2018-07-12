@@ -580,4 +580,9 @@ class AdminController extends Controller
 
         return "Success";
     }
+
+    public function listLog()
+    {
+        return view('admin.loglist');
+    }
 }

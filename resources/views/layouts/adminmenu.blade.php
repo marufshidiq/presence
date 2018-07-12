@@ -53,10 +53,15 @@
         <span>Class</span>
     </a>
 </li> 
-
 <li @if(explode(".",$route)[0] == "presence")class="active"@endif>
     <a href="{{route('presence.list')}}">
         <i class="material-icons">fingerprint</i>
         <span>Presence</span>
+    </a>
+</li>
+<li @if($route=='log.list')class="active"@endif>
+    <a href="{{route('log.list')}}">
+        <i class="material-icons">restore</i>
+        <span>Log</span>
     </a>
 </li>

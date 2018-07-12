@@ -50,8 +50,8 @@ class APIController extends Controller
             return response()->json(['message' => 'Card not found']);
         }
 
-        $log->card = $card['id'];
-        $log->room = $room['id'];
+        $log->card_id = $card['id'];
+        $log->room_id = $room['id'];
 
         $schedule = \App\ClassSchedule::where('room_id', $room['id'])
                                     ->where('week', $week)
