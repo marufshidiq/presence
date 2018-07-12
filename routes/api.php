@@ -18,3 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/set/weekly', 'APIController@setWeeklySchedule');
+Route::post('/rfid', 'APIController@rfid');
