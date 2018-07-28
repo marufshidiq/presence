@@ -67,6 +67,11 @@ class APIController extends Controller
             $start = \Carbon\Carbon::createFromFormat('H:i:s', $d['start']);
             $end = \Carbon\Carbon::createFromFormat('H:i:s', $d['end']);
             if($now->between($start, $end)){ // Check the session
+                if($d['state']==0){
+                    $log->status = json_encode(['message' => 'Schedule not started']);
+                    $log->save();
+                    return response()->json(['message' => 'Schedule not started']);
+                }
                 $class = \App\Classes::find($d['class_id']);
                 $class_member = $class->students->pluck('id')->toArray(); // Get the ID of student in class
                 

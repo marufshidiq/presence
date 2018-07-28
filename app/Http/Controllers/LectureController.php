@@ -102,4 +102,15 @@ class LectureController extends Controller
 
         return redirect()->route('home');
     }
+
+    public function startClass($id)
+    {
+        $schedule = ClassSchedule::find($id);
+        $schedule->update([
+            'state' => "1",
+            'start' => date("H:i:s")
+        ]);
+
+        return redirect()->back();
+    }
 }

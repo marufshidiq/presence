@@ -88,6 +88,7 @@ Route::group(['prefix' => 'lecture', 'middleware' => 'is_lecture'], function(){
     Route::get('/class/{id}/reschedule', 'LectureController@rescheduleClassForm')->name('lecture.class.reschedule.form');
     Route::post('/class/reschedule', 'LectureController@rescheduleClass')->name('lecture.reschedule');
     Route::post('/class/check', 'LectureController@checkClass')->name('lecture.class.check');
+    Route::get('/class/{id}/start', 'LectureController@startClass')->name('lecture.class.start');
 });
 
 Route::group(['prefix' => 'student'], function(){

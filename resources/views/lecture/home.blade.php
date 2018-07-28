@@ -43,16 +43,28 @@
                                             <th>Course</th>
                                             <th>Start</th>
                                             <th>End</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach(\App\Classes::where('lecture_id', Auth::user()->id)->orderBy('day', 'asc')->orderBy('start', 'asc')->get() as $data)
                                         <tr>
-                                            <td>{{$data->the_day()}}</td>
+                                            <td>{{$data->weekSchedule()->the_day()}}</td>
                                             <td>{{\App\Room::find($data->weekSchedule()['room_id'])['name']}}</td>
                                             <td>{{$data->course['name']}}</td>
                                             <td>{{$data->weekSchedule()['start']}}</td>
                                             <td>{{$data->weekSchedule()['end']}}</td>
+                                            @if($data->weekSchedule()->actstate() ==1)
+                                            <td>
+                                                <button onclick="location.href='{{ route('lecture.class.start', ['id'=>$data['id']]) }}'" class="btn btn-success waves-effect">Start</button>
+                                            </td>
+                                            @elseif($data->weekSchedule()->actstate() ==2)
+                                            <td>
+                                                <button class="btn btn-warning waves-effect" disabled>Already Started</button>
+                                            </td>
+                                            @else
+                                            <td></td>
+                                            @endif
                                         </tr>                                                                                
                                         @endforeach
                                     </tbody>
